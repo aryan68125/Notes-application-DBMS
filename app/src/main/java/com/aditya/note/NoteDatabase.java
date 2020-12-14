@@ -61,7 +61,7 @@ public class NoteDatabase extends SQLiteOpenHelper {
 
     //it will take Note as a parameter this note will contain all the information like title, content , date and time
     //and it will send that note from addnote activity to this node database
-    //Note note is the class
+    //Note note is the class that we just created
     public long addnote(Note note){
        //here we will insert the data
         SQLiteDatabase db = this.getWritableDatabase();

@@ -1,5 +1,6 @@
 package com.aditya.note;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -7,6 +8,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -19,6 +21,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.HashSet;
 import java.util.Locale;
 
 public class noteDetails extends AppCompatActivity {
@@ -86,11 +89,21 @@ public class noteDetails extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                db.deleteNote(note.getID());
-                Toast.makeText(getApplicationContext(), "Note deleted!", Toast.LENGTH_SHORT).show();
-                //now redirecting user to the main Activity
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
+                //creating dialog box that will ask the user whether they will delete the note or not
+                //creating a new alert dialog box to ask the user weather they truely want to delete the note or not
+                new AlertDialog.Builder(noteDetails.this).setIcon(R.drawable.danger).setTitle("Are you sure you want to delete the note?")
+                        .setMessage("The deleted notes cant be recovered!...gaur se dekh lo RAJA bhaya :-)")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //here we will write the code to delete a note from the applications listView and from the memory
+                                db.deleteNote(note.getID());
+                                Toast.makeText(getApplicationContext(), "Note deleted!", Toast.LENGTH_SHORT).show();
+                                //now redirecting user to the main Activity
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                startActivity(intent);
+                            }
+                        }).setNegativeButton("No",null).show();
             }
         });
     }
